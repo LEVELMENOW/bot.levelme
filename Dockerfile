@@ -1,15 +1,21 @@
-# Usamos una imagen base de Python
+# Imagen base oficial de Python
 FROM python:3.11-slim
 
-# Establecemos el directorio de trabajo
+# Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiamos los archivos necesarios
-COPY requirements.txt requirements.txt
-COPY bot_levelme.py bot_levelme.py
+# Copiamos todos los archivos del proyecto al contenedor
+COPY . /app
 
-# Instalamos las dependencias
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalamos las dependencias del proyecto
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# Comando para correr el bot
-CMD ["python", "bot_levelme.py"]
+# Creamos carpeta para logs por si acaso no existe
+RUN mkdir -p logs outputs config utils bot
+
+# Exponemos el puerto por si lo necesita
+EXPOSE 8080
+
+# Comando para ejecutar el bot
+CMD ["python", "bot/levelme.py"]
