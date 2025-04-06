@@ -1,0 +1,37 @@
+# .dockerignore limpio y optimizado
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales locales
+env/
+venv/
+.venv/
+
+# Archivos de configuración sensibles
+config/.env
+
+# Archivos y carpetas de control de versiones
+.git
+.gitignore
+.idea/
+.vscode/
+
+# Logs y salidas locales
+logs/
+outputs/
+
+# Base de datos local antigua (SQLite)
+levelme.db
+
+# Archivos temporales del sistema
+*.swp
+*.tmp
+*.bak
+*.log
+*.cache
+
+# Docker
+Dockerfile

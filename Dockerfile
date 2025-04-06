@@ -1,21 +1,29 @@
-# Imagen base oficial de Python
+# Dockerfile profesional para LevelME Bot
+
+# Imagen base oficial de Python optimizada
 FROM python:3.11-slim
 
-# Establecemos el directorio de trabajo dentro del contenedor
+# Establecer directorio de trabajo
 WORKDIR /app
 
-# Copiamos todos los archivos del proyecto al contenedor
+# Copiar archivos del proyecto al contenedor
 COPY . /app
 
-# Instalamos las dependencias del proyecto
+# Instalar dependencias del sistema para compilación
+RUN apt-get update && apt-get install -y build-essential && rm -rf /var/lib/apt/lists/*
+
+# Actualizar pip e instalar dependencias del proyecto
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Creamos carpeta para logs por si acaso no existe
+# Crear carpetas necesarias por si no existen
 RUN mkdir -p logs outputs config utils bot
 
-# Exponemos el puerto por si lo necesita
+# Variables de entorno (buenas prácticas)
+ENV PYTHONUNBUFFERED=1
+
+# Exponer puerto si decides poner API REST futuro (preparado)
 EXPOSE 8080
 
-# Comando para ejecutar el bot
+# Comando para ejecutar el bot directamente
 CMD ["python", "bot/levelme.py"]

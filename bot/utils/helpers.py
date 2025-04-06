@@ -4,17 +4,18 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# Carga las variables de entorno
-load_dotenv()
+# ============================
+# Cargar variables de entorno
+# ============================
+load_dotenv(dotenv_path='config/.env')
 
-# Variables de entorno
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-CANVA_CLIENT_ID = os.getenv('CLIENT_ID')
-CANVA_CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+CANVA_CLIENT_ID = os.getenv('CANVA_CLIENT_ID')
+CANVA_CLIENT_SECRET = os.getenv('CANVA_CLIENT_SECRET')
 
-# ======================
+# ============================
 # Función: Generar respuesta IA (OpenAI)
-# ======================
+# ============================
 
 def generar_respuesta_ia(prompt):
     try:
@@ -32,16 +33,16 @@ def generar_respuesta_ia(prompt):
         response = requests.post(url, headers=headers, json=data)
         response.raise_for_status()
         respuesta = response.json()['choices'][0]['message']['content'].strip()
+        print("\u2705 Respuesta IA generada correctamente.")
         return respuesta
 
     except Exception as e:
         print(f"⚠️ Error en OpenAI: {e}")
         return "⚠️ Hubo un error generando la respuesta de IA."
 
-
-# ======================
-# Función: Obtener token de Canva
-# ======================
+# ============================
+# Función: Obtener token de Canva (placeholder, OAuth completo lo haremos luego)
+# ============================
 
 def obtener_token_canva():
     try:
@@ -64,38 +65,15 @@ def obtener_token_canva():
         print(f"❌ Error al obtener token Canva: {e}")
         return None
 
-
-# ======================
-# Función: Generar diseño en Canva (placeholder)
-# ======================
+# ============================
+# Función: Generar diseño en Canva (placeholder, integración real después)
+# ============================
 
 def generar_diseno_canva(idea):
-    # ⚠️ Importante: Canva API aún necesita autenticación completa.
-    # Aquí dejamos la estructura para cuando conectemos la cuenta.
-
     token = obtener_token_canva()
     if not token:
         return "❌ No se pudo obtener el token de Canva."
 
-    # Aquí iría el endpoint real de Canva para crear diseños (cuando terminemos la API)
-    # Esto es un mockup de ejemplo:
+    # Placeholder para integración real
     print(f"🎨 Generando diseño en Canva para: {idea}")
     return f"🖼️ Diseño generado para: {idea} (funcionalidad Canva lista para conectar 🚀)"
-
-
-# ======================
-# Función: Guardar idea generada en outputs
-# ======================
-
-def guardar_idea(idea):
-    try:
-        with open('logs/activity.log', 'a', encoding='utf-8') as log_file:
-            log_file.write(f"{idea}\n")
-
-        with open('outputs/ideas_generadas.txt', 'a', encoding='utf-8') as output_file:
-            output_file.write(f"{idea}\n")
-
-        print("✅ Idea guardada correctamente.")
-
-    except Exception as e:
-        print(f"⚠️ Error al guardar la idea: {e}")

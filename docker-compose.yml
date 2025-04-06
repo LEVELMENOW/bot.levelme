@@ -1,0 +1,32 @@
+# docker-compose.yml profesional para LevelME
+
+version: '3.8'
+
+services:
+  levelme-bot:
+    build: .
+    container_name: levelme-bot
+    env_file:
+      - ./config/.env
+    volumes:
+      - .:/app
+    command: python bot/levelme.py
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: levelme-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: levelme
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
